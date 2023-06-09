@@ -3,9 +3,9 @@ package com.controller;
 import com.annotation.IgnoreAuth;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.entity.MapEntity;
-import com.entity.view.MapView;
-import com.service.MapService;
+import com.entity.UploadBulletinEntity;
+import com.entity.view.UploadBulletinView;
+import com.service.UploadBulletinService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
@@ -20,33 +20,34 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+
 /**
- * 地图公告
+ * 上传报告
  * 后端接口
  *
  *
  */
 @RestController
-@RequestMapping("/Map")
-public class MapController {
+@RequestMapping("/Upload Bulletin")
+public class UploadBulletinController {
 
     @Autowired
-    private MapService mapService;
+    private UploadBulletinService uploadBulletinService;
 
     /**
      * 后端列表
      *
      */
     @RequestMapping("/page")
-    public R page(@RequestParam Map<String, Object> params, MapEntity map,
+    public R page(@RequestParam Map<String, Object> params, UploadBulletinEntity uploadBulletin,
                   HttpServletRequest request){
         String tableName = request.getSession().getAttribute("tableName").toString();
         if(tableName.equals("announcement")) {
-            map.setAnnouncement_id((long)request.getSession().getAttribute("announcement_description"));
+            uploadBulletin.setAnnouncement_id((long)request.getSession().getAttribute("announcement_description"));
         }
-        EntityWrapper<MapEntity> ew = new EntityWrapper<MapEntity>();
+        EntityWrapper<UploadBulletinEntity> ew = new EntityWrapper<UploadBulletinEntity>();
 
-        PageUtils page = mapService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, map), params), params));
+        PageUtils page = uploadBulletinService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, uploadBulletin), params), params));
 
         return R.ok().put("data", page);
     }
@@ -57,11 +58,11 @@ public class MapController {
      */
     @IgnoreAuth
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params,MapEntity map,
+    public R list(@RequestParam Map<String, Object> params,UploadBulletinEntity uploadBulletin,
                   HttpServletRequest request){
-        EntityWrapper<MapEntity> ew = new EntityWrapper<MapEntity>();
+        EntityWrapper<UploadBulletinEntity> ew = new EntityWrapper<UploadBulletinEntity>();
 
-        PageUtils page = mapService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, map), params), params));
+        PageUtils page = uploadBulletinService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, uploadBulletin), params), params));
         return R.ok().put("data", page);
     }
 
@@ -70,21 +71,21 @@ public class MapController {
      *
      */
     @RequestMapping("/lists")
-    public R list( MapEntity map){
-        EntityWrapper<MapEntity> ew = new EntityWrapper<MapEntity>();
-        ew.allEq(MPUtil.allEQMapPre( map, "map"));
-        return R.ok().put("data", mapService.selectListView(ew));
+    public R list( UploadBulletinEntity uploadBulletin){
+        EntityWrapper<UploadBulletinEntity> ew = new EntityWrapper<UploadBulletinEntity>();
+        ew.allEq(MPUtil.allEQMapPre( uploadBulletin, "uploadBulletin"));
+        return R.ok().put("data", uploadBulletinService.selectListView(ew));
     }
 
     /**
      * 查询
      */
     @RequestMapping("/query")
-    public R query(MapEntity map){
-        EntityWrapper< MapEntity> ew = new EntityWrapper< MapEntity>();
-        ew.allEq(MPUtil.allEQMapPre( map, "map"));
-        MapView mapView =  mapService.selectView(ew);
-        return R.ok("查询公告成功").put("data", mapView);
+    public R query(UploadBulletinEntity uploadBulletin){
+        EntityWrapper< UploadBulletinEntity> ew = new EntityWrapper< UploadBulletinEntity>();
+        ew.allEq(MPUtil.allEQMapPre( uploadBulletin, "uploadBulletin"));
+        UploadBulletinView uploadBulletinView =  uploadBulletinService.selectView(ew);
+        return R.ok("查询公告成功").put("data", uploadBulletinView);
     }
 
     /**
@@ -92,8 +93,8 @@ public class MapController {
      */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-        MapEntity map = mapService.selectById(id);
-        return R.ok().put("data", map);
+        UploadBulletinEntity uploadBulletin = uploadBulletinService.selectById(id);
+        return R.ok().put("data", uploadBulletin);
     }
 
     /**
@@ -102,18 +103,18 @@ public class MapController {
     @IgnoreAuth
     @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
-        MapEntity map = mapService.selectById(id);
-        return R.ok().put("data", map);
+        UploadBulletinEntity uploadBulletin = uploadBulletinService.selectById(id);
+        return R.ok().put("data", uploadBulletin);
     }
 
     /**
      * 后端保存
      *///这里这里这里
     @RequestMapping("/save")
-    public R save(@RequestBody MapEntity map, HttpServletRequest request){
-        map.setAnnouncement_id(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(map);
-        mapService.insert(map);
+    public R save(@RequestBody UploadBulletinEntity uploadBulletin, HttpServletRequest request){
+        uploadBulletin.setAnnouncement_id(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(uploadBulletin);
+        uploadBulletinService.insert(uploadBulletin);
         return R.ok();
     }
 
@@ -121,10 +122,10 @@ public class MapController {
      * 前端保存
      *///这里这里这里
     @RequestMapping("/add")
-    public R add(@RequestBody MapEntity map, HttpServletRequest request){
-        map.setAnnouncement_id(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(map);
-        mapService.insert(map);
+    public R add(@RequestBody UploadBulletinEntity uploadBulletin, HttpServletRequest request){
+        uploadBulletin.setAnnouncement_id(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(uploadBulletin);
+        uploadBulletinService.insert(uploadBulletin);
         return R.ok();
     }
 
@@ -133,9 +134,9 @@ public class MapController {
      */
     @RequestMapping("/update")
     @Transactional
-    public R update(@RequestBody MapEntity map, HttpServletRequest request){
-        //ValidatorUtils.validateEntity(map);
-        mapService.updateById(map);//全部更新
+    public R update(@RequestBody UploadBulletinEntity uploadBulletin, HttpServletRequest request){
+        //ValidatorUtils.validateEntity(uploadBulletin);
+        uploadBulletinService.updateById(uploadBulletin);//全部更新
         return R.ok();
     }
 
@@ -144,7 +145,7 @@ public class MapController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-        mapService.deleteBatchIds(Arrays.asList(ids));
+        uploadBulletinService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
     }
 
@@ -178,7 +179,7 @@ public class MapController {
             }
         }
 
-        Wrapper<MapEntity> wrapper = new EntityWrapper<MapEntity>();
+        Wrapper<UploadBulletinEntity> wrapper = new EntityWrapper<UploadBulletinEntity>();
         if(map.get("remindstart")!=null) {
             wrapper.ge(columnName, map.get("remindstart"));
         }
@@ -191,7 +192,7 @@ public class MapController {
             wrapper.eq("announcement_id", (String)request.getSession().getAttribute("announcement_description"));
         }
 
-        int count = mapService.selectCount(wrapper);
+        int count = uploadBulletinService.selectCount(wrapper);
         return R.ok().put("count", count);
     }
 }
