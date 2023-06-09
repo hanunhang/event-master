@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Swiper Example</title>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <style>
+    .swiper-container {
+      width: 100%;
+      height: 300px;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="(item, index) in swiperList" :key="index">
+          <img :src="item.img" alt="Slide Image" />
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@2.6.14"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        swiperList: [
+          { img: 'https://www.itheima.com/images/logo.png' },
+          { img: 'D:\FYP-Local Safety Monitoring Subsystem\Front\pages\home\交通事故.jpg' },
+          { img: './home/交通事故.jpg' }
+        ]
+      },
+      mounted() {
+        this.$nextTick(() => {
+          new Swiper('.swiper-container', {
+            // Swiper 配置选项
+            // ...
+            pagination: {
+          el: '.swiper-pagination'
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image and Text Display</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .image-container {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .text-container {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .text-container h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="path/to/image.jpg" alt="Image">
+        </div>
+        <div class="text-container">
+            <h2>Text Information</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed vel enim eget dolor consectetur fermentum.</p>
+            <p>Phasellus ullamcorper nibh nec enim elementum, at lobortis nulla scelerisque.</p>
+        </div>
+    </div>
+</body>
+</html>

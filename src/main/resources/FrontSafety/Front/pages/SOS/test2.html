@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>定位</title>
+    <style>
+      /* 设置地图容器样式 */
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>定位</h1>
+
+    <form>
+      <label for="latitude">纬度：</label>
+      <input type="text" id="latitude" name="latitude" readonly>
+
+      <label for="longitude">经度：</label>
+      <input type="text" id="longitude" name="longitude" readonly>
+
+      <label for="address">当前地址：</label>
+      <input type="text" id="address" name="address" readonly>
+
+      <!--<button type="button" onclick="getCurrentLocation()">获取当前位置</button>-->
+    </form>
+
+    <div id="map"></div>
+
+    <script>
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: 0, lng: 0 },
+          zoom: 8,
+        });
+
+        // 检查是否支持地理位置API，并询问用户是否允许定位
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              // 更新表单中的纬度和经度字段
+              document.getElementById("latitude").value = latitude;
+              document.getElementById("longitude").value = longitude;
+
+              // 使用逆地理编码将经纬度转换为地址
+              const geocoder = new google.maps.Geocoder();
+              const latLng = new google.maps.LatLng(latitude, longitude);
+              geocoder.geocode({ location: latLng }, function (results, status) {
+                if (status === "OK") {
+                  if (results[0]) {
+                    // 更新表单中的地址字段
+                    document.getElementById("address").value =
+                      results[0].formatted_address;
+                  }
+                }
+              });
+            },
+            function (error) {
+              console.error("无法获取当前位置: " + error.message);
+            }
+          );
+        } else {
+          console.error("浏览器不支持地理位置API。");
+        }
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      async
+      defer
+    ></script>
+  </body>
+</html>
+

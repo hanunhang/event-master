@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>路线规划</title>
+  <style>
+    /* 在这里添加样式 */
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>路线规划</h1>
+  <form>
+    <label for="start">起点：</label>
+    <input type="text" id="start" name="start" required>
+
+    <label for="destination">终点：</label>
+    <input type="text" id="destination" name="destination" required>
+
+    <input type="submit" value="查找路线">
+  </form>
+
+  <div id="map"></div>
+
+  <div id="route"></div>
+
+  <script>
+    const form = document.querySelector('form');
+    const routeDiv = document.getElementById('route');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const start = document.getElementById('start').value;
+      const destination = document.getElementById('destination').value;
+
+      // 使用适当的API请求将start和destination发送给路线规划服务，并获取路线数据
+
+      // 示例代码：将路线数据显示在页面上
+      const routeData = {
+        distance: '10公里',
+        duration: '30分钟',
+        steps: [
+          '从起点出发',
+          '沿着某条街道行驶',
+          '右转进入某条大道',
+          '在终点附近到达目的地'
+        ]
+      };
+
+      const routeHTML = `
+        <p>距离：${routeData.distance}</p>
+        <p>时间：${routeData.duration}</p>
+        <ol>
+          ${routeData.steps.map(step => `<li>${step}</li>`).join('')}
+        </ol>
+      `;
+
+      routeDiv.innerHTML = routeHTML;
+    });
+  </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" async defer></script>
+  <script>
+    let map;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.7128, lng: -74.0060}, // 设置地图中心坐标
+        zoom: 12 // 设置缩放级别
+      });
+    }
+  </script>
+</body>
+</html>

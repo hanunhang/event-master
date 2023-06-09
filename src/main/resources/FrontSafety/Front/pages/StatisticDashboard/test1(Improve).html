@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Statistic Dashboard</title>
+    <!-- bootstrap样式，地图插件使用 -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../css/style.css" />
+    <!-- 主题（主要颜色设置） -->
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <!-- 通用的css -->
+    <link rel="stylesheet" href="../../css/common.css" />
+    <style>
+        .profile-container {
+            text-align: center;
+        }
+        
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            margin-top: 20px;
+        }
+        
+        .profile-info h2 {
+            margin-bottom: 10px;
+        }
+        
+        .profile-info p {
+            margin-bottom: 5px;
+        }
+        
+        .menu-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .menu-item {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .menu-item:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!--左右侧-->
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .image-container {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .text-container {
+            flex: 1;
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .text-container h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!--<img id="image" src="" alt="Image">-->
+        <div class="container">
+        <div class="image-container">
+            <img class="profile-image" src="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\Statistic Dashboard\微信图片_20230531220610.jpg" alt="Profile Image">
+            <p id="userContact"></p>
+            <p id="userEmail"></p>
+        </div>
+        <div class="text-container">
+        <div class="profile-info">
+            <form class="layui-form" action="">
+                <div :style='{"padding":"10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"0 0 10px 0","borderColor":"rgba(255,0,0,.3)","backgroundColor":"#fff","borderRadius":"4px","borderWidth":"0","borderStyle":"solid"}'
+                class="layui-form-item" pane>
+                    <label :style='{"width":"110px","padding":"0 12px 0 0","fontSize":"16px","color":"rgba(0, 0, 0, 1)","textAlign":"right"}' class="layui-form-label" >Name: </label>
+                    <div class="layui-input-inline">
+                      <input :style='{"padding":"0 12px","boxShadow":"0 0 0px rgba(255,0,0,.8)","borderColor":"rgba(0, 0, 0, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"0","textAlign":"left","borderWidth":"1px","fontSize":"14px","borderStyle":"solid","height":"40px"}' type="text" id="userName" name="userName" placeholder="userName" class="layui-input">
+                    </div>
+                </div>
+        
+                <div class="layui-form-item">
+                    <label class="layui-form-label">ID: </label>
+                    <div class="layui-input-inline">
+                      <input type="text" id="userID" name="userID" placeholder="userID" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Email: </label>
+                    <div class="layui-input-inline">
+                      <input type="text" id="userEmail" name="userEmail" placeholder="userEmail" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Age: </label>
+                    <div class="layui-input-inline">
+                      <input type="text" id="userAge" name="userAge" placeholder="userAge" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Contact: </label>
+                    <div class="layui-input-inline">
+                      <input type="text" id="userContact" name="userContact" placeholder="userContact" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Address: </label>
+                    <div class="layui-input-inline">
+                      <input type="text" id="userAddress" name="userAddress" placeholder="userAddress" class="layui-input">
+                    </div>
+                </div>
+        
+                <!--<div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button style="background-color: red;" type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">Send SOS</button>
+                    <button style="background-color: greenyellow;" type="reset" class="layui-btn layui-btn-primary">Reset</button>
+                  </div>
+                </div>-->
+              </form>
+            <!--<p id="userName">UserName</p>
+            <p id="userID">UserID</p>
+            <p id="userEmail">UserEmail</p>
+            <p id="userAge">UserAge</p>
+            <p id="userContact">UserContact</p>
+            <p id="userAddress">UserAddress</p>-->
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-item"><a href="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\upload report\addReport.html">Upload Reports</a></div>
+        <div class="menu-item"><a href="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\view report\viewReport.html">View Reports</a></div>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-item"><a href="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\map\map.html">Map</a></div>
+        <div class="menu-item"><a href="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\SOS\sos.html">SOS</a></div>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-item"><a href="D:\FYP-Local Safety Monitoring Subsystem\Front\pages\Statistic Dashboard\changeInfo.html">Change Personal Information</a></div>
+    </div>
+
+    <script>
+        // 使用JavaScript从后端获取用户数据
+        fetch('api/user') // 假设后端API的URL为 'api/user'
+            .then(response => response.json())
+            .then(user => {
+                // 更新页面上的用户信息
+                document.getElementById("profileImage").src = user.profileImage;
+                document.getElementById("userID").textContent = 'ID: ' + user.ID;
+                document.getElementById("userName").textContent = user.name;
+                document.getElementById("userEmail").textContent = 'Email: ' + user.email;
+                document.getElementById("userAger").textContent = 'Age: ' + user.age;
+                document.getElementById("userContact").textContent = 'Contact: ' + user.contact;
+                document.getElementById("userAddress").textContent = 'Address: ' + user.address;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+    <script>
+        // 使用JavaScript从后端获取图像并显示在页面上
+        fetch('api/image')  // 假设后端API的URL为 'api/image'
+            .then(response => response.blob())
+            .then(blob => {
+                // 将blob对象转换为URL
+                const imageUrl = URL.createObjectURL(blob);
+                document.getElementById('image').src = imageUrl;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+
+    <!-- 后端代码（Node.js + Express） -->
+    <script>
+        // 后端代码
+        const express = require('express');
+        const app = express();
+
+        app.get('/api/image', (req, res) => {
+          // 从文件系统或数据库中读取图像文件，然后将其发送到客户端
+          const imagePath = 'path/to/image.jpg';
+          res.sendFile(imagePath);
+        });
+
+        app.listen(3000, () => {
+          console.log('Server is running on port 3000');
+        });
+    </script>
+</body>
+</html>

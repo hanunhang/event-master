@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accident Reports</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- bootstrap样式，地图插件使用 -->
+	<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../layui/css/layui.css">
+	<!-- 样式 -->
+	<link rel="stylesheet" href="../../css/style.css" />
+	<!-- 主题（主要颜色设置） -->
+	<link rel="stylesheet" href="../../css/theme.css" />
+	<!-- 通用的css -->
+	<link rel="stylesheet" href="../../css/common.css" />
+  <style>
+    .select-container {
+      display: inline-block;
+      position: fixed;
+      top: 15px;
+      right: 20px;
+    }
+
+    .select-container select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .select-container select:focus {
+      outline: none;
+      border-color: #8c8c8c;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+    html::after {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			content: '';
+			display: block;
+			background-attachment: fixed;
+			background-size: cover;
+			background-position: center;
+			z-index: -1;
+		}
+		#swiper {
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		#swiper .layui-carousel-ind li {
+			width: 16px;
+			height: 10px;
+			border-width: 0;
+			border-style: solid;
+			border-color: rgba(0,0,0,.3);
+			border-radius: 3px;
+			background-color: #f7f7f7;
+			box-shadow: 0 0 6px rgba(255,0,0,.8);
+		}
+		#swiper .layui-carousel-ind li.layui-this {
+			width: 24px;
+			height: 10px;
+			border-width: 0;
+			border-style: solid;
+			border-color: rgba(0,0,0,.3);
+			border-radius: 0;
+			background-color: red;
+			box-shadow: 0 0 6px rgba(255,0,0,.8);
+		}
+		
+		button, button:focus {
+			outline: none;
+		}
+		
+		.data-add-container .add .layui-select-title .layui-unselect {
+			padding: 0 12px;
+			height: 40px;
+			font-size: 14px;
+			color: #333;
+			border-radius: 0;
+			border-width: 1px;
+			border-style: solid;
+			border-color: rgba(0, 0, 0, 1);
+			background-color: #fff;
+			box-shadow: 0 0 0px rgba(255,0,0,.8);
+			text-align: left;
+		}
+		.data-add-container .add .layui-form-item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.data-add-container .layui-form-pane .layui-form-item[pane] .layui-form-label {
+			margin: 0;
+			position: inherit;
+			background: transparent;
+			border: 0;
+		}
+		.data-add-container .add .layui-input-block {
+			margin: 0;
+			flex: 1;
+		}
+		.data-add-container .layui-form-pane .layui-form-item[pane] .layui-input-inline {
+			margin: 0;
+			flex: 1;
+			display: flex;
+		}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .chart-container {
+            width: 400px;
+            height: 400px;
+            margin: 20px;
+        }
+        h1 {
+        color: #d5a97a;
+        }
+        h2 {
+        color: #d5a97a;
+        }
+        p {
+        color: #d5a97a;
+        }
+        p {
+        font-size: 18px;
+        }
+        .theme-text {
+        color: #d5a97a;
+        }
+
+        .red-text {
+        color: red;
+        }
+        .container {
+        background-color: #EEEEEE;
+        padding: 10px;
+        }
+        table {
+        border-collapse: collapse;
+        width: 100%!important;
+        }
+
+        th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+        }
+  </style>
+</head>
+<body style="background: #EEEEEE; ">
+  <h1>Accident Report</h1>
+  <hr>
+  <!--筛选器-->
+  <div class="select-container">
+    <p style="text-align: right; font-size: 16px; color: blue;">Choose Report Type</p>
+    <select onchange="redirectToPage(this.value)">
+      <option value="viewAccidentReport.html">View Accident Reports</option>
+      <option value="viewReport.html">View Report</option>
+      <option value="viewCrimeReport.html">View Crime Reports</option>
+    </select>
+    </div>
+
+  <div class="container">
+    <div style="white-space: pre-wrap;">
+      <h2>Accident Report Statistics</h2>
+      <p id="totalReports">Number of Accident Reports: </p>
+      <p id="top3Locations">Top 3 Accident Location: </p>
+    </div>
+  </div>
+    <hr>
+  <div class="container">
+    <div id="pieChartContainer" class="chart-container">
+      <h2>Reporting Locations</h2>
+      <canvas id="pieChart"></canvas>
+    </div>
+
+    <div id="lineChartContainer" class="chart-container">
+      <h2>Time and Location trends</h2>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+  <hr>
+
+  <div class="container">
+    <table>
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 这里使用后端数据填充表格内容-->
+          <tr>
+            <td>Data1</td>
+            <td>Data2</td>
+          </tr>
+          <tr>
+            <td>Data4</td>
+            <td>Data5</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <script>
+    // 模拟从后端获取的数据
+    var reportData = {
+      totalReports: 100,
+      top3Locations: ['Location1', 'Location2', 'Location3'],
+      locationPercentages: [30, 25, 15],
+      timeLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+      locationData: [10, 15, 20, 18, 25]
+    };
+
+    // 更新报告数量统计和 Top 3 地点
+    document.getElementById('totalReports').textContent += reportData.totalReports;
+    document.getElementById('top3Locations').textContent += reportData.top3Locations.join(', ');
+
+    // 创建饼状图
+    var pieChartCtx = document.getElementById('pieChart').getContext('2d');
+    var pieChart = new Chart(pieChartCtx, {
+      type: 'pie',
+      data: {
+        labels: reportData.top3Locations,
+        datasets: [{
+          data: reportData.locationPercentages,
+          backgroundColor: ['red', 'blue', 'green']
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    // 创建折线图
+    var lineChartCtx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(lineChartCtx, {
+      type: 'line',
+      data: {
+        labels: reportData.timeLabels,
+        datasets: [{
+          label: 'Location report quantity',
+          data: reportData.locationData,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0, 0, 255, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Month'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Number of Reports'
+            }
+          }
+        }
+      }
+    });
+  </script>
+  <!--筛选器-->
+  <script>
+    function redirectToPage(value) {
+      if (value) {
+        window.location.href = value;
+      }
+    }
+  </script>
+</body>
+</html>
