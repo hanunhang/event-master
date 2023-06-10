@@ -3,4 +3,27 @@
 
 <mapper namespace="com.dao.StatisticDashboardDao">
 
+    <select id="selectListVO"
+            resultType="com.entity.vo.StatisticDashboardVO" >
+        SELECT * FROM statisticDashboard  statisticDashboard
+        <where> 1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectVO"
+            resultType="com.entity.vo.StatisticDashboardVO" >
+        SELECT  statisticDashboard.* FROM statisticDashboard  statisticDashboard
+        <where> 1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectListView"
+            resultType="com.entity.view.StatisticDashboardView" >
+
+        SELECT  statisticDashboard.* FROM statisticDashboard  statisticDashboard
+        <where> 1=1 ${ew.sqlSegment}</where>
+    </select>
+
+    <select id="selectView"
+            resultType="com.entity.view.StatisticDashboardView" >
+        SELECT * FROM statisticDashboard  statisticDashboard <where> 1=1 ${ew.sqlSegment}</where>
+    </select>
 </mapper>
