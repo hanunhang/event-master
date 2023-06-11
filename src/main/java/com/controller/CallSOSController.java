@@ -3,9 +3,9 @@ package com.controller;
 import com.annotation.IgnoreAuth;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.entity.SOSEntity;
-import com.entity.view.SOSView;
-import com.service.SOSService;
+import com.entity.CallSOSEntity;
+import com.entity.view.CallSOSView;
+import com.service.CallSOSService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
@@ -20,32 +20,33 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+
 /**
- * 求救板
+ * 提交sos
  * 后端接口
  *
  *
  */
 @RestController
-@RequestMapping("/sos")
-public class SOSController {
+@RequestMapping("/CallSOS")
+public class CallSOSController {
     @Autowired
-    private SOSService sosService;
+    private CallSOSService callSOSService;
 
     /**
      * 后端列表
      *
      */
     @RequestMapping("/page")
-    public R page(@RequestParam Map<String, Object> params, SOSEntity sos,
+    public R page(@RequestParam Map<String, Object> params, CallSOSEntity callSOS,
                   HttpServletRequest request){
         String tableName = request.getSession().getAttribute("tableName").toString();
-        if(tableName.equals("userdetails")) {
-            sos.setUserID((long)request.getSession().getAttribute("Name"));
+        if(tableName.equals("sos")) {
+            callSOS.setUserID((long)request.getSession().getAttribute("CurrentLocation"));
         }
-        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
+        EntityWrapper<CallSOSEntity> ew = new EntityWrapper<CallSOSEntity>();
 
-        PageUtils page = sosService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, sos), params), params));
+        PageUtils page = callSOSService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, callSOS), params), params));
 
         return R.ok().put("data", page);
     }
@@ -56,11 +57,11 @@ public class SOSController {
      */
     @IgnoreAuth
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params,SOSEntity sos,
+    public R list(@RequestParam Map<String, Object> params,CallSOSEntity callSOS,
                   HttpServletRequest request){
-        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
+        EntityWrapper<CallSOSEntity> ew = new EntityWrapper<CallSOSEntity>();
 
-        PageUtils page = sosService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, sos), params), params));
+        PageUtils page = callSOSService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, callSOS), params), params));
         return R.ok().put("data", page);
     }
 
@@ -69,21 +70,21 @@ public class SOSController {
      *
      */
     @RequestMapping("/lists")
-    public R list( SOSEntity sos){
-        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
-        ew.allEq(MPUtil.allEQMapPre( sos, "sos"));
-        return R.ok().put("data", sosService.selectListView(ew));
+    public R list( CallSOSEntity callSOS){
+        EntityWrapper<CallSOSEntity> ew = new EntityWrapper<CallSOSEntity>();
+        ew.allEq(MPUtil.allEQMapPre( callSOS, "callSOS"));
+        return R.ok().put("data", callSOSService.selectListView(ew));
     }
 
     /**
      * 查询
      */
     @RequestMapping("/query")
-    public R query(SOSEntity sos){
-        EntityWrapper< SOSEntity> ew = new EntityWrapper< SOSEntity>();
-        ew.allEq(MPUtil.allEQMapPre( sos, "sos"));
-        SOSView sosView =  sosService.selectView(ew);
-        return R.ok("查询公告成功").put("data", sosView);
+    public R query(CallSOSEntity callSOS){
+        EntityWrapper< CallSOSEntity> ew = new EntityWrapper< CallSOSEntity>();
+        ew.allEq(MPUtil.allEQMapPre( callSOS, "callSOS"));
+        CallSOSView callSOSView =  callSOSService.selectView(ew);
+        return R.ok("查询上传sos成功").put("data", callSOSView);
     }
 
     /**
@@ -91,8 +92,8 @@ public class SOSController {
      */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-        SOSEntity sos = sosService.selectById(id);
-        return R.ok().put("data", sos);
+        CallSOSEntity callSOS = callSOSService.selectById(id);
+        return R.ok().put("data", callSOS);
     }
 
     /**
@@ -101,18 +102,18 @@ public class SOSController {
     @IgnoreAuth
     @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
-        SOSEntity sos = sosService.selectById(id);
-        return R.ok().put("data", sos);
+        CallSOSEntity callSOS = callSOSService.selectById(id);
+        return R.ok().put("data", callSOS);
     }
 
     /**
      * 后端保存
      *///这里这里这里
     @RequestMapping("/save")
-    public R save(@RequestBody SOSEntity sos, HttpServletRequest request){
-        sos.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(sos);
-        sosService.insert(sos);
+    public R save(@RequestBody CallSOSEntity callSOS, HttpServletRequest request){
+        callSOS.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(callSOS);
+        callSOSService.insert(callSOS);
         return R.ok();
     }
 
@@ -120,10 +121,10 @@ public class SOSController {
      * 前端保存
      *///这里这里这里
     @RequestMapping("/add")
-    public R add(@RequestBody SOSEntity sos, HttpServletRequest request){
-        sos.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(sos);
-        sosService.insert(sos);
+    public R add(@RequestBody CallSOSEntity callSOS, HttpServletRequest request){
+        callSOS.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(callSOS);
+        callSOSService.insert(callSOS);
         return R.ok();
     }
 
@@ -132,9 +133,9 @@ public class SOSController {
      */
     @RequestMapping("/update")
     @Transactional
-    public R update(@RequestBody SOSEntity sos, HttpServletRequest request){
-        //ValidatorUtils.validateEntity(statisticDashboard);
-        sosService.updateById(sos);//全部更新
+    public R update(@RequestBody CallSOSEntity callSOS, HttpServletRequest request){
+        //ValidatorUtils.validateEntity(callSOS);
+        callSOSService.updateById(callSOS);//全部更新
         return R.ok();
     }
 
@@ -143,7 +144,7 @@ public class SOSController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-        sosService.deleteBatchIds(Arrays.asList(ids));
+        callSOSService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
     }
 
@@ -177,7 +178,7 @@ public class SOSController {
             }
         }
 
-        Wrapper<SOSEntity> wrapper = new EntityWrapper<SOSEntity>();
+        Wrapper<CallSOSEntity> wrapper = new EntityWrapper<CallSOSEntity>();
         if(map.get("remindstart")!=null) {
             wrapper.ge(columnName, map.get("remindstart"));
         }
@@ -186,11 +187,11 @@ public class SOSController {
         }
 
         String tableName = request.getSession().getAttribute("tableName").toString();
-        if(tableName.equals("userdetails")) {
-            wrapper.eq("UserID", (String)request.getSession().getAttribute("Name"));
+        if(tableName.equals("sos")) {
+            wrapper.eq("UserID", (String)request.getSession().getAttribute("CurrentLocation"));
         }
 
-        int count = sosService.selectCount(wrapper);
+        int count = callSOSService.selectCount(wrapper);
         return R.ok().put("count", count);
     }
 }

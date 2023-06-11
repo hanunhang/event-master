@@ -32,7 +32,7 @@ import java.util.Map;
 @RequestMapping("/viewStatisticDashboard")
 public class StatisticDashboardController {
 
-    @Autowired(required = false)
+    @Autowired
     private StatisticDashboardService statisticDashboardService;
 
     /**

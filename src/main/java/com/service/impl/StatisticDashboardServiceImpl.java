@@ -11,10 +11,12 @@ import com.entity.vo.StatisticDashboardVO;
 import com.service.StatisticDashboardService;
 import com.utils.PageUtils;
 import com.utils.Query;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
+@Service("statisticDashboardService")
 public class StatisticDashboardServiceImpl extends ServiceImpl<StatisticDashboardDao, StatisticDashboardEntity> implements StatisticDashboardService {
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
