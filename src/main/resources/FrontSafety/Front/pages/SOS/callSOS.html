@@ -120,28 +120,37 @@
 <body>
     <h1>SOS</h1>
     <hr>
-    
-    <button id="sos-button">Send SOS</button>
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <button style="text-align: center;" type="button" class="layui-btn layui-btn-danger" onclick="redirectToPage()">SOS</button>
+    <div id="location-info">
+    <form class="layui-form" action="" style="text-align: center;">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="text-align: center;">SOS Latitude: </label>
+            <div class="layui-input-inline" style="text-align: center;">
+              <input type="text" id="latitude" name="latitude" placeholder="latitude" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="text-align: center;">SOS Longitude: </label>
+            <div class="layui-input-inline" style="text-align: center;">
+              <input type="text" id="longitude" name="longitude" placeholder="longitude" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="text-align: center;">Current Location: </label>
+            <div class="layui-input-inline" style="text-align: center;">
+              <input type="text" id="address" name="address" placeholder="address" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button style="background-color: red;" type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">Send SOS</button>
+            <button style="background-color: greenyellow;" type="reset" class="layui-btn layui-btn-primary">Reset</button>
+          </div>
+        </div>
+      </form>
     </div>
-    <hr>
-
-
-    <div id="contact-list" style="text-align: center;">
-        <h3>Emergency Contacts:</h3>
-        <div id="emergencyContacts"></div>
-    </div>
-    <hr>
-
-    <!--<div class="sos-log" style="text-align: center;">
-        <h3>SOS Log:</h3>
-        <p>Date: 2023-05-30, Time: 10:30 AM</p>
-        <p>Location: Latitude: 40.7128, Longitude: -74.0060</p>
-        <p>Status: SOS Sent</p>
-    </div>
-    <hr>-->
-
     <div id="map"></div>
 
     <!--按钮-->
@@ -150,96 +159,6 @@
           window.location.href = "./callSOS.html";
       }
   </script>
-    <!--紧急联系人-->
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-  var emergencyContactsElement = document.getElementById("emergencyContacts");
-
-  // 从后台获取紧急联系人信息的逻辑
-  // 这里使用示例数据来模拟从后台获取的联系人信息
-  var emergencyContacts = [
-    {
-      name: "张三",
-      email: "zhangsan@example.com",
-      phone: "123456789"
-    },
-    {
-      name: "李四",
-      email: "lisi@example.com",
-      phone: "987654321"
-    },
-    {
-      name: "王五",
-      email: "wangwu@example.com",
-      phone: "555555555"
-    }
-  ];
-
-  // 根据获取的紧急联系人信息创建 HTML 元素
-  emergencyContacts.forEach(function(contact) {
-    var contactElement = document.createElement("div");
-    contactElement.classList.add("contact");
-
-    var nameElement = document.createElement("div");
-    nameElement.classList.add("contact-name");
-    nameElement.textContent = contact.name;
-
-    var emailElement = document.createElement("div");
-    emailElement.classList.add("contact-email");
-    emailElement.textContent = contact.email;
-
-    var phoneElement = document.createElement("div");
-    phoneElement.classList.add("contact-phone");
-    phoneElement.textContent = contact.phone;
-
-    contactElement.appendChild(nameElement);
-    contactElement.appendChild(emailElement);
-    contactElement.appendChild(phoneElement);
-
-    emergencyContactsElement.appendChild(contactElement);
-  });
-});
-
-    </script>
-    
-    <script>
-        
-    // SOS按钮点击事件
-    var sosButton = document.getElementById("sos-button");
-    sosButton.addEventListener("click", function() {
-    // 发送SOS逻辑
-    
-    // 更新消息状态
-    //document.getElementById("message").textContent = "Status: SOS Sent";
-    
-    // 执行发送紧急邮件操作
-    sendEmergencyEmail();
-    });
-
-    // 发送紧急邮件函数
-    function sendEmergencyEmail() {
-    // 获取紧急联系人列表
-    /*var contacts = document.getElementsByClassName("contact");
-    var emailRecipients = [];
-    for (var i = 0; i < contacts.length; i++) {
-        var email = contacts[i].querySelector("p:nth-child(2)").textContent.split(":")[1].trim();
-        emailRecipients.push(email);
-    }
-    */
-    // 构建邮件内容
-    var recipient = "hankun@student.usm.my"; // 设置收件人邮箱
-    var subject = "Emergency Alert";
-    var body = "This is an emergency alert. Please take immediate action!";
-    
-    // 构建邮件链接
-    var mailtoLink = "mailto:" + recipient + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    //var mailtoLink = "mailto:" + emailRecipients.join(",") + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    
-    // 打开邮件客户端发送邮件
-    window.location.href = mailtoLink;
-    }
-
-    </script>
     <!--定位-->
     <script>
         function initMap() {

@@ -1,12 +1,11 @@
 package com.controller;
 
-
 import com.annotation.IgnoreAuth;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.entity.StatisticDashboardEntity;
-import com.entity.view.StatisticDashboardView;
-import com.service.StatisticDashboardService;
+import com.entity.SOSEntity;
+import com.entity.view.SOSView;
+import com.service.SOSService;
 import com.utils.MPUtil;
 import com.utils.PageUtils;
 import com.utils.R;
@@ -22,33 +21,31 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * 用户仪表盘
+ * 求救板
  * 后端接口
  *
  *
  */
-
 @RestController
-@RequestMapping("/viewStatisticDashboard")
-public class StatisticDashboardController {
-
+@RequestMapping("/sos")
+public class SOSController {
     @Autowired(required = false)
-    private StatisticDashboardService statisticDashboardService;
+    private SOSService sosService;
 
     /**
      * 后端列表
      *
      */
     @RequestMapping("/page")
-    public R page(@RequestParam Map<String, Object> params, StatisticDashboardEntity statisticDashboard,
+    public R page(@RequestParam Map<String, Object> params, SOSEntity sos,
                   HttpServletRequest request){
         String tableName = request.getSession().getAttribute("tableName").toString();
         if(tableName.equals("userdetails")) {
-            statisticDashboard.setUserID((long)request.getSession().getAttribute("Name"));
+            sos.setUserID((long)request.getSession().getAttribute("Name"));
         }
-        EntityWrapper<StatisticDashboardEntity> ew = new EntityWrapper<StatisticDashboardEntity>();
+        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
 
-        PageUtils page = statisticDashboardService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, statisticDashboard), params), params));
+        PageUtils page = sosService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, sos), params), params));
 
         return R.ok().put("data", page);
     }
@@ -59,11 +56,11 @@ public class StatisticDashboardController {
      */
     @IgnoreAuth
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params,StatisticDashboardEntity statisticDashboard,
+    public R list(@RequestParam Map<String, Object> params,SOSEntity sos,
                   HttpServletRequest request){
-        EntityWrapper<StatisticDashboardEntity> ew = new EntityWrapper<StatisticDashboardEntity>();
+        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
 
-        PageUtils page = statisticDashboardService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, statisticDashboard), params), params));
+        PageUtils page = sosService.queryPage(params, MPUtil.sort(MPUtil.between(MPUtil.likeOrEq(ew, sos), params), params));
         return R.ok().put("data", page);
     }
 
@@ -72,21 +69,21 @@ public class StatisticDashboardController {
      *
      */
     @RequestMapping("/lists")
-    public R list( StatisticDashboardEntity statisticDashboard){
-        EntityWrapper<StatisticDashboardEntity> ew = new EntityWrapper<StatisticDashboardEntity>();
-        ew.allEq(MPUtil.allEQMapPre( statisticDashboard, "statisticDashboard"));
-        return R.ok().put("data", statisticDashboardService.selectListView(ew));
+    public R list( SOSEntity sos){
+        EntityWrapper<SOSEntity> ew = new EntityWrapper<SOSEntity>();
+        ew.allEq(MPUtil.allEQMapPre( sos, "sos"));
+        return R.ok().put("data", sosService.selectListView(ew));
     }
 
     /**
      * 查询
      */
     @RequestMapping("/query")
-    public R query(StatisticDashboardEntity statisticDashboard){
-        EntityWrapper< StatisticDashboardEntity> ew = new EntityWrapper< StatisticDashboardEntity>();
-        ew.allEq(MPUtil.allEQMapPre( statisticDashboard, "statisticDashboard"));
-        StatisticDashboardView statisticDashboardView =  statisticDashboardService.selectView(ew);
-        return R.ok("查询公告成功").put("data", statisticDashboardView);
+    public R query(SOSEntity sos){
+        EntityWrapper< SOSEntity> ew = new EntityWrapper< SOSEntity>();
+        ew.allEq(MPUtil.allEQMapPre( sos, "sos"));
+        SOSView sosView =  sosService.selectView(ew);
+        return R.ok("查询公告成功").put("data", sosView);
     }
 
     /**
@@ -94,8 +91,8 @@ public class StatisticDashboardController {
      */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-        StatisticDashboardEntity statisticDashboard = statisticDashboardService.selectById(id);
-        return R.ok().put("data", statisticDashboard);
+        SOSEntity sos = sosService.selectById(id);
+        return R.ok().put("data", sos);
     }
 
     /**
@@ -104,18 +101,18 @@ public class StatisticDashboardController {
     @IgnoreAuth
     @RequestMapping("/detail/{id}")
     public R detail(@PathVariable("id") Long id){
-        StatisticDashboardEntity statisticDashboard = statisticDashboardService.selectById(id);
-        return R.ok().put("data", statisticDashboard);
+        SOSEntity sos = sosService.selectById(id);
+        return R.ok().put("data", sos);
     }
 
     /**
      * 后端保存
      *///这里这里这里
     @RequestMapping("/save")
-    public R save(@RequestBody StatisticDashboardEntity statisticDashboard, HttpServletRequest request){
-        statisticDashboard.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(statisticDashboard);
-        statisticDashboardService.insert(statisticDashboard);
+    public R save(@RequestBody SOSEntity sos, HttpServletRequest request){
+        sos.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(sos);
+        sosService.insert(sos);
         return R.ok();
     }
 
@@ -123,10 +120,10 @@ public class StatisticDashboardController {
      * 前端保存
      *///这里这里这里
     @RequestMapping("/add")
-    public R add(@RequestBody StatisticDashboardEntity statisticDashboard, HttpServletRequest request){
-        statisticDashboard.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
-        //ValidatorUtils.validateEntity(statisticDashboard);
-        statisticDashboardService.insert(statisticDashboard);
+    public R add(@RequestBody SOSEntity sos, HttpServletRequest request){
+        sos.setUserID(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
+        //ValidatorUtils.validateEntity(sos);
+        sosService.insert(sos);
         return R.ok();
     }
 
@@ -135,9 +132,9 @@ public class StatisticDashboardController {
      */
     @RequestMapping("/update")
     @Transactional
-    public R update(@RequestBody StatisticDashboardEntity statisticDashboard, HttpServletRequest request){
+    public R update(@RequestBody SOSEntity sos, HttpServletRequest request){
         //ValidatorUtils.validateEntity(statisticDashboard);
-        statisticDashboardService.updateById(statisticDashboard);//全部更新
+        sosService.updateById(sos);//全部更新
         return R.ok();
     }
 
@@ -146,7 +143,7 @@ public class StatisticDashboardController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-        statisticDashboardService.deleteBatchIds(Arrays.asList(ids));
+        sosService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
     }
 
@@ -180,7 +177,7 @@ public class StatisticDashboardController {
             }
         }
 
-        Wrapper<StatisticDashboardEntity> wrapper = new EntityWrapper<StatisticDashboardEntity>();
+        Wrapper<SOSEntity> wrapper = new EntityWrapper<SOSEntity>();
         if(map.get("remindstart")!=null) {
             wrapper.ge(columnName, map.get("remindstart"));
         }
@@ -193,7 +190,7 @@ public class StatisticDashboardController {
             wrapper.eq("UserID", (String)request.getSession().getAttribute("Name"));
         }
 
-        int count = statisticDashboardService.selectCount(wrapper);
+        int count = sosService.selectCount(wrapper);
         return R.ok().put("count", count);
     }
 }

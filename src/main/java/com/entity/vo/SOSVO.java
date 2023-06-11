@@ -1,23 +1,13 @@
-package com.entity;
-
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
+package com.entity.vo;
 
 import java.io.Serializable;
 
-/**
- * 求救联系人信息
- * 数据库通用操作实体类（普通增删改查）
-
- */
-@TableName("userdetails")
-public class SOSEntity<T> implements Serializable {
+public class SOSVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 用户主键
      */
-    @TableId
     private long UserID;
 
     /**
@@ -74,24 +64,6 @@ public class SOSEntity<T> implements Serializable {
      * 密码
      */
     private String User_password;
-
-    @Override
-    public String toString() {
-        return "SOSEntity{" +
-                "UserID=" + UserID +
-                ", Name='" + Name + '\'' +
-                ", Age=" + Age +
-                ", Gender='" + Gender + '\'' +
-                ", Phone='" + Phone + '\'' +
-                ", User_address='" + User_address + '\'' +
-                ", User_email='" + User_email + '\'' +
-                ", Emergency_email1='" + Emergency_email1 + '\'' +
-                ", Emergency_email2='" + Emergency_email2 + '\'' +
-                ", User_photo='" + User_photo + '\'' +
-                ", User_Number='" + User_Number + '\'' +
-                ", User_password='" + User_password + '\'' +
-                '}';
-    }
 
     public long getUserID() {
         return UserID;
