@@ -83,7 +83,7 @@ public class SOSController {
         EntityWrapper< SOSEntity> ew = new EntityWrapper< SOSEntity>();
         ew.allEq(MPUtil.allEQMapPre( sos, "sos"));
         SOSView sosView =  sosService.selectView(ew);
-        return R.ok("查询公告成功").put("data", sosView);
+        return R.ok("查询信息成功").put("data", sosView);
     }
 
     /**
@@ -133,7 +133,7 @@ public class SOSController {
     @RequestMapping("/update")
     @Transactional
     public R update(@RequestBody SOSEntity sos, HttpServletRequest request){
-        //ValidatorUtils.validateEntity(statisticDashboard);
+        //ValidatorUtils.validateEntity(sos);
         sosService.updateById(sos);//全部更新
         return R.ok();
     }

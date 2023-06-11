@@ -86,7 +86,7 @@ public class StatisticDashboardController {
         EntityWrapper< StatisticDashboardEntity> ew = new EntityWrapper< StatisticDashboardEntity>();
         ew.allEq(MPUtil.allEQMapPre( statisticDashboard, "statisticDashboard"));
         StatisticDashboardView statisticDashboardView =  statisticDashboardService.selectView(ew);
-        return R.ok("查询公告成功").put("data", statisticDashboardView);
+        return R.ok("查询信息成功").put("data", statisticDashboardView);
     }
 
     /**

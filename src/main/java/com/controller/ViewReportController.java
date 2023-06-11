@@ -84,7 +84,7 @@ public class ViewReportController {
         EntityWrapper< ReportEntity> ew = new EntityWrapper< ReportEntity>();
         ew.allEq(MPUtil.allEQMapPre( viewReport, "viewReport"));
         ReportView viewReportView =  reportService.selectView(ew);
-        return R.ok("查询上传报名成功").put("data", viewReportView);
+        return R.ok("查询报名成功").put("data", viewReportView);
     }
 
     /**
